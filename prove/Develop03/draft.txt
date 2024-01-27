@@ -1,0 +1,153 @@
+//Program file
+using System;
+using System.ComponentModel;
+using Microsoft.VisualBasic;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Hello Develop03 World!");
+        Scripture myScripture = new Scripture();
+        var script = new Scripture {
+            Refference = "1 Nephi 3:7",
+            Text = "And it came to pass that I, Nephi, said unto my father: I will go and do the things which the Lord hath commanded, for I know that the Lord giveth no commandments unto the children of men, save he shall prepare a way for them that they may accomplish the thing which he commandeth them."
+
+
+        };
+
+         
+        myScripture._scriptureList.Add(script);
+       // myScripture.ShowScripture();
+
+        List<String> newList = myScripture.ListFromScripture(myScripture._scriptureList);
+       
+
+        
+        string answer  = "";
+      
+        while (answer != "quit"){
+             foreach (string i in newList)
+            {
+                Console.Write($"{i} ");
+            }
+            Console.WriteLine("Press Enter to continue or quit...");
+            answer = Console.ReadLine();
+        // Wait for the Enter key to be pressed
+         if((Console.In.Peek() < 0) ) 
+
+        // Check if the pressed key is Enter
+            {
+                //Console.WriteLine("THIS HAS TO BE REMOVED");
+                //Console.Clear();
+                //myScripture.HideScripture(newList);
+                newList = myScripture.HideScripture(newList);
+                
+            //Console.WriteLine("\nEnter key was pressed. Continuing...");
+            }
+    //         ConsoleKeyInfo keyInfo = Console.ReadKey();
+
+    // if (keyInfo.Key == ConsoleKey.Enter)
+    // {
+    //     newList = myScripture.HideScripture(newList);
+    // }
+           // Console.Clear();
+        }
+    }
+}
+
+//Scripture file
+using System.Windows;
+
+public class Scripture{
+    public string Refference { get; set; }
+    public string Text { get; set; }
+
+
+    public List<Scripture> _scriptureList = new List<Scripture>{};
+
+    public int ScriptureChoose(){
+        Random randomGenerator = new Random();
+        int randomIndex =  randomGenerator.Next(0, _scriptureList.Count);
+        //string myString = _scriptureList[randomIndex].ToString();
+        return randomIndex;
+    }
+
+    public List<string> ListFromScripture(List<Scripture> list){
+        int newIndex = ScriptureChoose();
+        //string text = _scriptureList[newIndex].Text;
+        string text = list[newIndex].Text;
+        var delimetere = " ";
+        List<string> result = text.Split(delimetere).ToList();
+        // foreach (String w in result){
+        // Console.WriteLine(result.Count);
+        return result; 
+    }
+
+    public List<String> HideScripture(List<String> myList){
+        //List<string> myList = ListFromScripture();
+        //for (int i = 0; i <=3; i++){
+        var myIndex = RightIndex(myList);
+
+            //list[randomIndex] = "_"
+            string newString = "";
+            for (int j = 0; j < myList[myIndex].Length; j++) {
+                newString = newString + "_";
+            }
+               //
+                Console.WriteLine(newString);
+                
+
+                myList[myIndex] = newString;
+            
+
+     //   }
+        //Console.Clear();
+            // foreach(String element in myList){
+                
+            //     Console.Write($"{element}-{element.StartsWith("_")}");
+            //  }
+            return myList;
+
+            
+          
+        }
+    
+
+    public int RightIndex(List <String> myList){
+
+        Random randomGenerator = new Random();
+        int randomIndex =  randomGenerator.Next(0, myList.Count);
+        // if (myList[randomIndex].StartsWith("_") && randomIndex<myList.Count){
+        //     //while(myList[randomIndex].StartsWith("_") && randomIndex< myList.Count)
+        //     Console.WriteLine(myList[randomIndex]);
+        //     randomIndex++;
+
+            
+        // }
+        // else if(myList[randomIndex].StartsWith("_") && randomIndex>myList.Count){
+        //     randomIndex--;
+        // }
+        // else{
+        //     Console.WriteLine("All list is ____");
+    //}
+    for (int f = 0; f < myList.Count; f++){
+         if (myList[randomIndex].StartsWith("_") && randomIndex<myList.Count -1){
+            //while(myList[randomIndex].StartsWith("_") && randomIndex< myList.Count)
+            Console.WriteLine(myList[randomIndex]);
+            randomIndex++;
+            Console.WriteLine($"{randomIndex} index was {randomIndex - 1}");}
+        else if(myList[randomIndex].StartsWith("_") && randomIndex>=myList.Count){
+             randomIndex--;
+             Console.WriteLine($"{randomIndex} index was {randomIndex + 1}");
+        }
+    }
+        
+        
+        
+        return randomIndex;
+    }
+
+
+
+}

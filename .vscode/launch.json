@@ -2,6 +2,9 @@
 {
     "version": "0.2.0",
     "configurations": [
+        
+        
+        
 
         {
             "name": "Sandbox Project",
@@ -154,8 +157,8 @@
             "program": "${workspaceFolder}/prove/Develop03/bin/Debug/net7.0/Develop03.dll",
             "args": [],
             "cwd": "${workspaceFolder}/prove/Develop03",
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
+            "console": "externalTerminal",
+            "internalConsoleOptions": "openOnSessionStart",
             "stopAtEntry": false
         },
 
