@@ -14,7 +14,7 @@ public void CoreActivity(int time){
         int numberOfbreath = time/10;
         //Console.WriteLine(numberOfbreath);
         for(int i = 0; i < numberOfbreath; i++){
-            Console.Write("\nBreath in...");
+            Console.Write("\n\nBreath in...");
             NumbersCount(4);
             Console.Write("\nBreath out...");
             NumbersCount(6);
