@@ -1,0 +1,5 @@
+0
+SimpleGoal: Smile tommorow, I will smile tommorow and will be friendly, 100,100, False
+EternalGoal: Be happy, Look for happiness everywehere, 500
+ChecklistGoal: Sleep, Sleep well everyday, 100,50, 500, 500, 0
+GoalWithNotification: Read , Read every day, 100,500,50,10,0,0
