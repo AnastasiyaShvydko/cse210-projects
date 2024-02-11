@@ -5,7 +5,7 @@ public class EternalGoal:Goal{
 }
 
     public override  void  RecordEvent(){
-
+        Console.WriteLine($"Congadualtions you earned {GetPoints()}!");
     }
     public override  void RecordMissedEvent(){
     
