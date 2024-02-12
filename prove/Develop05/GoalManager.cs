@@ -141,7 +141,7 @@ public class GoalMahager{
         string firstPart = $"{_score}\n";
         
         foreach(Goal g in _goals){
-            firstPart = $"{firstPart}{g.GetStringRepresentation()}\n";
+            firstPart = $"{firstPart}{g.GetStringRepresentation()}";
            
         }
             using (StreamWriter outputFile = new StreamWriter(fileName)){
