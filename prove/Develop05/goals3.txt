@@ -1,0 +1,2 @@
+0
+SimpleGoal: fff, ffff, 100,10, False

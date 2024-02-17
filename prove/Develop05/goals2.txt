@@ -1,0 +1,3 @@
+0
+SimpleGoal: read, read, 100,10, False
+
