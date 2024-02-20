@@ -1,6 +1,6 @@
 using System.Text.Json;
 public class Main{
-    //int _sumCalories;
+    double _bmr = 0;
     List<Recipe> _userRecipe = new List<Recipe>();
     List<string> ingredientList = new List<string>();
 
@@ -12,7 +12,8 @@ public class Main{
     public void Start(){
         DisplayGreetingMessage();
         string answer = "";
-        while(answer != "6"){
+        while(answer != "7"){
+            DisplayUserBMR();
             Console.WriteLine("Please choose what would you like to do:\n");
             DisplayUserInterface();
             answer = Console.ReadLine();
@@ -29,10 +30,13 @@ public class Main{
                 LoadRecipe();
             }
             if(answer == "5"){
-                DisplayRecipe();
+                CreateMealPlan();
             }
             if(answer == "6"){
-                DisplayRecipe();
+                CalculateBMR();
+            }
+            if(answer == "7"){
+                Console.WriteLine("Good bye!");
             }
         }
 
@@ -40,13 +44,24 @@ public class Main{
 
     }
 
+    public void DisplayUserBMR(){
+        if (_bmr == 0){
+                Console.WriteLine($"Your bmr: unknown\n");
+        }
+        else{
+            Console.WriteLine($"Your bmr: {_bmr}\n");
+        }
+    }
+
     public void DisplayUserInterface(){
+       
         List<string> userMenu = new List<string>();
         userMenu.Add("Add new recipe");
         userMenu.Add("Display recipes");
         userMenu.Add("Save recipe");
         userMenu.Add("Load from Recipe's Book");
         userMenu.Add("Creat personal Meal Plan");
+        userMenu.Add("Calculate Basal Metabolic Rate");
         userMenu.Add("Quit");
 
         foreach(string s in userMenu){
@@ -116,19 +131,24 @@ public class Main{
 
     public void SaveRecipe(){
         List<JsonObjectRecipe> _recipeList = new List<JsonObjectRecipe>{};
+        LoadRecipe();
         foreach(Recipe r in _userRecipe){
            _recipeList.Add(r.GetJsonRecipe());
         }
-            string json = JsonSerializer.Serialize(_recipeList);
+        
+       
+            string json =  JsonSerializer.Serialize(_recipeList);
             using (StreamWriter outputFile = new StreamWriter("recipe.txt")){
             outputFile.WriteLine(json);
            // outputFile.WriteLine(fileString);
             outputFile.Flush();
 
         }
+        _userRecipe.Clear();
     }
 
     public void LoadRecipe(){
+        _userRecipe.Clear();
         using (StreamReader outputFile = new StreamReader("recipe.txt")){
         string text = outputFile.ReadToEnd();
         userRecipeList = JsonSerializer.Deserialize<List<JsonObjectRecipe>>(text);
@@ -158,8 +178,68 @@ public class Main{
         }}
     }
 
+
+    public void CreateMealPlan(){   
+        _userRecipe.Clear();
+        LoadRecipe();
+        List<string> breakfastList = new List<string>();
+        List<string> lunchList = new List<string>();
+        List<string> dinnerList = new List<string>();
+        List<string> dessertList = new List<string>();
+
+        foreach(Recipe r in _userRecipe){
+            if(r.GetType().ToString() == "BreakfastRecipe"){
+                breakfastList.Add(r.GetDetailsRecipe());
+            }
+            if(r.GetType().ToString() == "LunchRecipe"){
+                lunchList.Add(r.GetDetailsRecipe());
+
+            }
+            if(r.GetType().ToString() == "DinnerRecipe"){
+                dinnerList.Add(r.GetDetailsRecipe());
+
+            }
+            if(r.GetType().ToString() == "DessertRecipe"){
+                dessertList.Add(r.GetDetailsRecipe());
+  
+            }
+        }
+        List<String> mealPLan = new List<String>();
+       
+            Random randomGenerator = new Random();
+            int randomIndexBreakfast = randomGenerator.Next(0, breakfastList.Count - 1 );
+            int randomIndexLunch = randomGenerator.Next(0, lunchList.Count - 1);
+            int randomIndexDinner= randomGenerator.Next(0, dinnerList.Count - 1);
+            int randomIndexDessert= randomGenerator.Next(0, dessertList.Count - 1);
+            mealPLan.Add(breakfastList[randomIndexBreakfast]);
+            mealPLan.Add(lunchList[randomIndexLunch]);
+            mealPLan.Add(dinnerList[randomIndexDinner]);
+            mealPLan.Add(dessertList[randomIndexDessert]);
+            foreach(String mp in mealPLan){
+                Console.WriteLine(mp);
+            }
+
+        
+        }
+
+    public void CalculateBMR(){
+        Console.WriteLine("Please enter your weight in kg");
+        string weight = Console.ReadLine();
+        Console.WriteLine("Please enter your height in cm");
+        string height = Console.ReadLine();
+        Console.WriteLine("Please enter your age");
+        string age = Console.ReadLine();
+        Console.WriteLine("Please enter your gender");
+        string gender = Console.ReadLine();
+        BMRcalculator newCalculator = new BMRcalculator(Convert.ToDouble(weight), Convert.ToDouble(height), Convert.ToInt32(age),gender);
+        Console.WriteLine($"Your Basal Metabolic Rate is {newCalculator.calculateBMR()} calories");
+        _bmr = newCalculator.calculateBMR();
+        }
+
+
+
     public void ListTypesOfRecipies(){
-         List<string> types = new List<string>();
+        List<string> types = new List<string>();
         types.Add("Breakfast");
         types.Add("Lunch");
         types.Add("Dinner");
@@ -198,7 +278,7 @@ public class Main{
         string userEnded = "";
         List<JsonObjectIngredients> ingredientList = new List<JsonObjectIngredients>();
         
-        while(userEnded != "0"){
+        while(userEnded != "yes"){
             
             Console.WriteLine("Please enter ingerdient:");
             string ingredientName = Console.ReadLine();
